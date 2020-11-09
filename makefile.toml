@@ -3,7 +3,15 @@ dependencies = ["bundle"]
 
 [tasks.bundle]
 script_runner = "@shell"
-script = ["npx rollup ./main.js --format iife --file ./pkg/bundle.js"]
+script = ["npx rollup ./index.js --format iife --file ./bundle.js"]
+dependencies = ["copy_to_root"]
+
+[tasks.copy_to_root]
+script_runner = "@shell"
+script = '''
+cp ./pkg/serde_web_converter_bg.wasm ./
+cp ./pkg/serde_web_converter.js ./
+'''
 dependencies = ["wasm_pack_build"]
 
 [tasks.wasm_pack_build]
