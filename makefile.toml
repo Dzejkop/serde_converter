@@ -1,0 +1,23 @@
+[tasks.build_web]
+dependencies = ["bundle"]
+
+[tasks.bundle]
+script_runner = "@shell"
+script = ["npx rollup ./main.js --format iife --file ./pkg/bundle.js"]
+dependencies = ["wasm_pack_build"]
+
+[tasks.wasm_pack_build]
+command = "wasm-pack"
+args = ["build", "--target", "web"]
+
+[tasks.copy_files_to_export]
+script_runner = "@shell"
+script = '''
+mkdir export
+mkdir export/pkg
+cp ./index.html export
+cp ./index.css export
+cp ./pkg/bundle.js export/pkg
+cp ./pkg/serde_web_converter_bg.wasm export/pkg
+cp ./pkg/serde_web_converter.js export/pkg
+'''

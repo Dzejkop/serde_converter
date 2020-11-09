@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Yew</title>
+    <script src="/pkg/bundle.js" defer></script>
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="input-container">
+            <div class="input-area-container">
+                <textarea class="input-area" id="left"></textarea>
+                <select id="input-format" name="input-format">
+                    <option value="json">Json</option>
+                    <option value="yaml">Yaml</option>
+                    <option value="ron">Ron</option>
+                    <option value="toml">Toml</option>
+                </select>
+            </div>
+            <button id="flip">Flip</button>
+            <div class="input-area-container">
+                <textarea class="input-area" id="right"></textarea>
+                <select id="target-format" name="target-format">
+                    <option value="json">Json</option>
+                    <option value="yaml">Yaml</option>
+                    <option value="ron">Ron</option>
+                    <option value="toml">Toml</option>
+                </select>
+            </div>
+        </div>
+        <div class="error-container">
+            <p id="error-msg">Something went wrong :(</p>
+        </div>
+    </div>
+</body>
+
+</html>
