@@ -8,17 +8,12 @@ use web_sys::{
 };
 
 #[derive(Clone, Copy)]
-enum InputFormat {
-    Detect,
-    Format(Format),
-}
-
-#[derive(Clone, Copy)]
 enum Format {
     Json,
     Yaml,
     Ron,
     Toml,
+    Csv,
 }
 
 impl FromStr for Format {
@@ -30,6 +25,7 @@ impl FromStr for Format {
             "yaml" => Format::Yaml,
             "ron" => Format::Ron,
             "toml" => Format::Toml,
+            "csv" => Format::Csv,
             _ => return Err("".to_string()),
         })
     }
@@ -42,6 +38,7 @@ impl Display for Format {
             Format::Yaml => write!(f, "yaml"),
             Format::Ron => write!(f, "ron"),
             Format::Toml => write!(f, "toml"),
+            Format::Csv => write!(f, "csv"),
         }
     }
 }
@@ -94,6 +91,55 @@ fn set_current_right_value(new_text: String) -> Result<(), JsValue> {
     Ok(())
 }
 
+trait AsSequence {
+    type T;
+    fn as_seq(&self) -> &[Self::T];
+}
+
+impl AsSequence for serde_json::Value {
+    type T = serde_json::Value;
+
+    fn as_seq(&self) -> &[Self::T] {
+        self.as_array().unwrap().as_slice()
+    }
+}
+
+impl AsSequence for toml::Value {
+    type T = toml::Value;
+
+    fn as_seq(&self) -> &[Self::T] {
+        self.as_array().unwrap().as_slice()
+    }
+}
+
+impl AsSequence for ron::Value {
+    type T = Self;
+
+    fn as_seq(&self) -> &[Self::T] {
+        if let ron::Value::Seq(s) = self {
+            s.as_slice()
+        } else {
+            panic!(":(")
+        }
+    }
+}
+
+impl AsSequence for serde_yaml::Value {
+    type T = Self;
+
+    fn as_seq(&self) -> &[Self::T] {
+        self.as_sequence().unwrap().as_slice()
+    }
+}
+
+impl AsSequence for Vec<Vec<String>> {
+    type T = Vec<String>;
+
+    fn as_seq(&self) -> &[Self::T] {
+        self.as_slice()
+    }
+}
+
 fn update_right_serialize(new_text: String) -> Result<(), JsValue> {
     let input_format = get_current_input_format()?;
 
@@ -122,12 +168,31 @@ fn update_right_serialize(new_text: String) -> Result<(), JsValue> {
 
             update_right(value)?;
         }
+        Format::Csv => {
+            let mut records = vec![];
+
+            let mut reader = csv::ReaderBuilder::new()
+                .has_headers(false)
+                .from_reader(new_text.as_str().as_bytes());
+
+            for entry in reader.deserialize() {
+                let result: Vec<String> = entry.map_err(any_err_convert)?;
+                records.push(result);
+            }
+
+            update_right(records)?;
+        }
     }
 
     Ok(())
 }
 
-fn update_right(value: impl Serialize) -> Result<(), JsValue> {
+fn update_right<T>(
+    value: impl Serialize + AsSequence<T = T>,
+) -> Result<(), JsValue>
+where
+    T: Serialize,
+{
     let target_format = get_current_target_format()?;
 
     let new_right = match target_format {
@@ -144,6 +209,21 @@ fn update_right(value: impl Serialize) -> Result<(), JsValue> {
         }
         Format::Toml => {
             toml::to_string_pretty(&value).map_err(any_err_convert)?
+        }
+        Format::Csv => {
+            let mut buffer = vec![];
+            let mut writer = csv::Writer::from_writer(&mut buffer);
+
+            for value in value.as_seq() {
+                writer.serialize(value).map_err(any_err_convert)?;
+            }
+
+            writer.flush().map_err(any_err_convert)?;
+            drop(writer);
+
+            let s = String::from_utf8(buffer).map_err(any_err_convert)?;
+
+            s
         }
     };
 

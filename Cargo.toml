@@ -21,6 +21,7 @@ ron = "0.6.2"
 console_log = "0.2.0"
 log = "0.4.11"
 toml = "0.5.7"
+csv = "1.1.4"
 
 [dependencies.web-sys]
 version = "0.3.4"
