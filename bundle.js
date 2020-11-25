@@ -3,6 +3,26 @@
 
     let wasm;
 
+    const heap = new Array(32).fill(undefined);
+
+    heap.push(undefined, null, true, false);
+
+    function getObject(idx) { return heap[idx]; }
+
+    let heap_next = heap.length;
+
+    function dropObject(idx) {
+        if (idx < 36) return;
+        heap[idx] = heap_next;
+        heap_next = idx;
+    }
+
+    function takeObject(idx) {
+        const ret = getObject(idx);
+        dropObject(idx);
+        return ret;
+    }
+
     let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 
     cachedTextDecoder.decode();
@@ -19,12 +39,6 @@
         return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
     }
 
-    const heap = new Array(32).fill(undefined);
-
-    heap.push(undefined, null, true, false);
-
-    let heap_next = heap.length;
-
     function addHeapObject(obj) {
         if (heap_next === heap.length) heap.push(heap.length + 1);
         const idx = heap_next;
@@ -32,20 +46,6 @@
 
         heap[idx] = obj;
         return idx;
-    }
-
-    function getObject(idx) { return heap[idx]; }
-
-    function dropObject(idx) {
-        if (idx < 36) return;
-        heap[idx] = heap_next;
-        heap_next = idx;
-    }
-
-    function takeObject(idx) {
-        const ret = getObject(idx);
-        dropObject(idx);
-        return ret;
     }
 
     let WASM_VECTOR_LEN = 0;
@@ -205,7 +205,7 @@
         return real;
     }
     function __wbg_adapter_20(arg0, arg1) {
-        wasm.wasm_bindgen__convert__closures__invoke0_mut__hb7d517a7bd2b4f78(arg0, arg1);
+        wasm.wasm_bindgen__convert__closures__invoke0_mut__h10d2e6fb1b9f9cf6(arg0, arg1);
     }
 
     function handleError(f) {
@@ -217,6 +217,44 @@
                 wasm.__wbindgen_exn_store(addHeapObject(e));
             }
         };
+    }
+    /**
+    */
+    class CsvOptions {
+
+        static __wrap(ptr) {
+            const obj = Object.create(CsvOptions.prototype);
+            obj.ptr = ptr;
+
+            return obj;
+        }
+
+        free() {
+            const ptr = this.ptr;
+            this.ptr = 0;
+
+            wasm.__wbg_csvoptions_free(ptr);
+        }
+        /**
+        * @returns {boolean}
+        */
+        get has_header() {
+            var ret = wasm.__wbg_get_csvoptions_has_header(this.ptr);
+            return ret !== 0;
+        }
+        /**
+        * @param {boolean} arg0
+        */
+        set has_header(arg0) {
+            wasm.__wbg_set_csvoptions_has_header(this.ptr, arg0);
+        }
+        /**
+        * @param {boolean} has_header
+        */
+        constructor(has_header) {
+            var ret = wasm.csvoptions_new(has_header);
+            return CsvOptions.__wrap(ret);
+        }
     }
 
     async function load(module, imports) {
@@ -258,10 +296,6 @@
         }
         const imports = {};
         imports.wbg = {};
-        imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
-            var ret = getStringFromWasm0(arg0, arg1);
-            return addHeapObject(ret);
-        };
         imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
             takeObject(arg0);
         };
@@ -273,6 +307,10 @@
             }
             var ret = false;
             return ret;
+        };
+        imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
+            var ret = getStringFromWasm0(arg0, arg1);
+            return addHeapObject(ret);
         };
         imports.wbg.__wbg_instanceof_Window_adf3196bdc02b386 = function(arg0) {
             var ret = getObject(arg0) instanceof Window;
@@ -286,8 +324,15 @@
             var ret = getObject(arg0).querySelector(getStringFromWasm0(arg1, arg2));
             return isLikeNone(ret) ? 0 : addHeapObject(ret);
         });
+        imports.wbg.__wbg_setProperty_42eabadfcd7d6199 = handleError(function(arg0, arg1, arg2, arg3, arg4) {
+            getObject(arg0).setProperty(getStringFromWasm0(arg1, arg2), getStringFromWasm0(arg3, arg4));
+        });
         imports.wbg.__wbg_instanceof_HtmlParagraphElement_c43bf327b2e3723a = function(arg0) {
             var ret = getObject(arg0) instanceof HTMLParagraphElement;
+            return ret;
+        };
+        imports.wbg.__wbg_instanceof_HtmlDivElement_7e781bd82f7b5734 = function(arg0) {
+            var ret = getObject(arg0) instanceof HTMLDivElement;
             return ret;
         };
         imports.wbg.__wbg_debug_b443de592faba09f = function(arg0) {
@@ -312,11 +357,23 @@
         imports.wbg.__wbg_setinnerText_f2b56447f815dc9e = function(arg0, arg1, arg2) {
             getObject(arg0).innerText = getStringFromWasm0(arg1, arg2);
         };
+        imports.wbg.__wbg_style_9a41d46c005f7596 = function(arg0) {
+            var ret = getObject(arg0).style;
+            return addHeapObject(ret);
+        };
         imports.wbg.__wbg_setonclick_5cb400945e687587 = function(arg0, arg1) {
             getObject(arg0).onclick = getObject(arg1);
         };
         imports.wbg.__wbg_setoninput_cb5303c5eb0f44a1 = function(arg0, arg1) {
             getObject(arg0).oninput = getObject(arg1);
+        };
+        imports.wbg.__wbg_instanceof_HtmlInputElement_aaef9fb14eceaa9b = function(arg0) {
+            var ret = getObject(arg0) instanceof HTMLInputElement;
+            return ret;
+        };
+        imports.wbg.__wbg_checked_bd3a45386afc949e = function(arg0) {
+            var ret = getObject(arg0).checked;
+            return ret;
         };
         imports.wbg.__wbg_instanceof_HtmlTextAreaElement_6c876047bbe08f92 = function(arg0) {
             var ret = getObject(arg0) instanceof HTMLTextAreaElement;
@@ -403,8 +460,8 @@
         imports.wbg.__wbindgen_rethrow = function(arg0) {
             throw takeObject(arg0);
         };
-        imports.wbg.__wbindgen_closure_wrapper401 = function(arg0, arg1, arg2) {
-            var ret = makeMutClosure(arg0, arg1, 80, __wbg_adapter_20);
+        imports.wbg.__wbindgen_closure_wrapper81 = function(arg0, arg1, arg2) {
+            var ret = makeMutClosure(arg0, arg1, 3, __wbg_adapter_20);
             return addHeapObject(ret);
         };
 
@@ -422,7 +479,11 @@
 
     async function main() {
        await init('/serde_web_converter_bg.wasm');
+
+       let x = new CsvOptions(true);
+       console.log(x.has_header);
     }
+
 
     main();
 

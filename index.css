@@ -1,5 +1,5 @@
 .input-area-container {
-    width: 45vw;
+    width: 40vw;
     display: inline-block;
 }
 
@@ -18,4 +18,8 @@ textarea.input-area {
 
 #error-msg {
     color: red;
+}
+
+.options {
+    display: inline;
 }

@@ -35,5 +35,8 @@ features = [
   'HtmlSelectElement',
   'HtmlTextAreaElement',
   'HtmlButtonElement',
-  'HtmlParagraphElement'
+  'HtmlParagraphElement',
+  'HtmlDivElement',
+  'HtmlInputElement',
+  'CssStyleDeclaration'
 ]
