@@ -21,11 +21,11 @@ args = ["build", "--target", "web"]
 [tasks.copy_files_to_export]
 script_runner = "@shell"
 script = '''
+rm -rf export
 mkdir export
-mkdir export/pkg
 cp ./index.html export
 cp ./index.css export
-cp ./pkg/bundle.js export/pkg
-cp ./pkg/serde_web_converter_bg.wasm export/pkg
-cp ./pkg/serde_web_converter.js export/pkg
+cp ./bundle.js export
+cp ./pkg/serde_web_converter_bg.wasm export
 '''
+dependencies = ["bundle"]
