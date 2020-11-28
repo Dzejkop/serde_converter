@@ -8,17 +8,16 @@ dependencies = ["wasm_pack_build"]
 
 [tasks.wasm_pack_build]
 command = "wasm-pack"
-args = ["build", "--target", "web", "--", "-j", "4"]
+args = ["build", "--target", "web"]
 
 [tasks.export]
 script_runner = "@shell"
 script = '''
 rm -rf export
 mkdir export
-mkdir export/pkg
 cp ./index.html export
 cp ./index.css export
 cp ./bundle.js export
-cp ./pkg/serde_web_converter_bg.wasm export/pkg
+cp ./pkg/serde_web_converter_bg.wasm export
 '''
 dependencies = ["bundle"]
