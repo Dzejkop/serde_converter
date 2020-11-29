@@ -2,7 +2,7 @@ use crate::{any_err_convert, Format};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::{JsCast, JsValue};
 use web_sys::{
-    Document, HtmlInputElement, HtmlSelectElement, HtmlTextAreaElement, Window,
+    Document, HtmlDivElement, HtmlInputElement, HtmlSelectElement, Window,
 };
 
 pub fn window() -> Result<Window, JsValue> {
@@ -39,6 +39,16 @@ pub fn set_current_input_format(input_format: Format) -> Result<(), JsValue> {
     Ok(())
 }
 
+pub fn set_current_target_format(input_format: Format) -> Result<(), JsValue> {
+    let document = get()?;
+    let select = document.query_selector("#target-format")?.unwrap();
+    let select = select.dyn_ref::<HtmlSelectElement>().unwrap();
+
+    select.set_value(&input_format.to_string());
+
+    Ok(())
+}
+
 pub fn get_current_input_format() -> Result<Format, JsValue> {
     let document = get()?;
     let select = document.query_selector("#input-format")?.unwrap();
@@ -61,10 +71,10 @@ pub fn get_current_target_format() -> Result<Format, JsValue> {
 
 pub fn get_current_left_value() -> Result<String, JsValue> {
     let document = get()?;
-    let text_area = document.query_selector("textarea#left")?.unwrap();
-    let text_area = text_area.dyn_ref::<HtmlTextAreaElement>().unwrap();
+    let text_area = document.query_selector("#left")?.unwrap();
+    let text_area = text_area.dyn_ref::<HtmlDivElement>().unwrap();
 
-    let format = text_area.value();
+    let format = text_area.inner_text();
 
     Ok(format)
 }
@@ -72,10 +82,10 @@ pub fn get_current_left_value() -> Result<String, JsValue> {
 pub fn set_current_right_value(new_text: String) -> Result<(), JsValue> {
     let document = get()?;
 
-    let text_area = document.query_selector("textarea#right")?.unwrap();
-    let text_area = text_area.dyn_ref::<HtmlTextAreaElement>().unwrap();
+    let text_area = document.query_selector("#right")?.unwrap();
+    let text_area = text_area.dyn_ref::<HtmlDivElement>().unwrap();
 
-    text_area.set_value(&new_text);
+    text_area.set_inner_text(&new_text);
 
     Ok(())
 }
@@ -83,10 +93,10 @@ pub fn set_current_right_value(new_text: String) -> Result<(), JsValue> {
 pub fn set_current_left_value(new_text: String) -> Result<(), JsValue> {
     let document = get()?;
 
-    let text_area = document.query_selector("textarea#left")?.unwrap();
-    let text_area = text_area.dyn_ref::<HtmlTextAreaElement>().unwrap();
+    let text_area = document.query_selector("#left")?.unwrap();
+    let text_area = text_area.dyn_ref::<HtmlDivElement>().unwrap();
 
-    text_area.set_value(&new_text);
+    text_area.set_inner_text(&new_text);
 
     Ok(())
 }

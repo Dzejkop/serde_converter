@@ -2,48 +2,54 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <title>serde_converter</title>
-    <link rel="stylesheet" href="index.css" />
+  <meta charset="utf-8" />
+  <title>serde_translate</title>
+  <link rel="stylesheet" href="index.css" />
 </head>
-
 <body>
-    <div class="container">
-        <div class="input-container">
-            <div class="input-area-container">
-                <textarea class="input-area" id="left"></textarea>
-                <select id="input-format" name="input-format">
-                    <option value="json">Json</option>
-                    <option value="yaml">Yaml</option>
-                    <option value="ron">Ron</option>
-                    <option value="toml">Toml</option>
-                    <option value="csv">Csv</option>
-                </select>
-                <div id="csv-options" class="options">
-                    <label id="csv-options" class="switch">
-                        <span>Has header</span>
-                        <input id="has-header" type="checkbox">
-                    </label>
-                </div>
-            </div>
-            <button id="flip">Flip</button>
-            <button id="share">Share</button>
-            <div class="input-area-container">
-                <textarea class="input-area" id="right"></textarea>
-                <select id="target-format" name="target-format">
-                    <option value="json">Json</option>
-                    <option value="yaml">Yaml</option>
-                    <option value="ron">Ron</option>
-                    <option value="toml">Toml</option>
-                    <option value="csv">Csv</option>
-                </select>
-            </div>
+  <div class="container">
+    <div class="input-container">
+      <div class="input-area-container">
+        <div contenteditable="true" class="input-area" id="left">AAAAAAAAAAA</div>
+        <div class="input-options-container">
+          <select id="input-format" name="input-format">
+            <option value="json">Json</option>
+            <option value="yaml">Yaml</option>
+            <option value="ron">Ron</option>
+            <option value="toml">Toml</option>
+            <option value="csv">Csv</option>
+          </select>
+          <div id="csv-options" class="options">
+            <label id="csv-options" class="switch">
+              <span>Has header</span>
+              <input id="has-header" type="checkbox">
+            </label>
+          </div>
         </div>
-        <div class="error-container">
-            <p id="error-msg">Something went wrong :(</p>
+      </div>
+      <div class="buttons-container">
+        <button id="flip">Flip</button>
+        <button id="share">Share</button>
+        <p class="share-link"></p>
+      </div>
+      <div class="input-area-container">
+        <div contenteditable="true" class="input-area" id="right">AAAAAAAAAAAA</div>
+        <div class="input-options-container">
+          <select id="target-format" name="target-format">
+            <option value="json">Json</option>
+            <option value="yaml">Yaml</option>
+            <option value="ron">Ron</option>
+            <option value="toml">Toml</option>
+            <option value="csv">Csv</option>
+          </select>
         </div>
+      </div>
     </div>
-    <script src="bundle.js" defer></script>
+    <div class="error-container">
+      <p id="error-msg">Something went wrong :(</p>
+    </div>
+  </div>
+  <script src="bundle.js" defer></script>
 </body>
 
 </html>

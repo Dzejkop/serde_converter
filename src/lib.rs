@@ -190,6 +190,10 @@ pub fn try_update_search_query() -> Result<(), JsValue> {
         set_current_input_format(input_format)?;
     }
 
+    if let Some(target_format) = wsq.target_format {
+        set_current_target_format(target_format)?;
+    }
+
     update()?;
 
     Ok(())
@@ -200,6 +204,8 @@ pub fn run_app() -> Result<(), wasm_bindgen::JsValue> {
     if let Err(err) = console_log::init_with_level(log::Level::Debug) {
         log::error!("Failed to set up logging: {}", err);
     }
+
+    log::info!("Library initialized");
 
     Ok(())
 }

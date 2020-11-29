@@ -1,6 +1,9 @@
 import init, { update, tryUpdateSearchQuery, generateShareQuery } from './pkg/serde_web_converter.js';
 
 const errorMsg = document.querySelector('#error-msg');
+const shareLink = document.querySelector('p.share-link');
+
+shareLink.style.display = 'none';
 
 function updateError(error) {
    errorMsg.textContent = '';
@@ -35,7 +38,7 @@ async function main() {
       updateError(error);
    }
 
-   document.querySelector('textarea#left').addEventListener('input', updateOrDisplayError);
+   document.querySelector('#left').addEventListener('input', updateOrDisplayError);
    document.querySelector('select#input-format').addEventListener('input', updateOrDisplayError);
    document.querySelector('select#target-format').addEventListener('input', updateOrDisplayError);
    document.querySelector('#csv-options label input#has-header').addEventListener('input', updateOrDisplayError);
@@ -51,11 +54,18 @@ async function main() {
       inputFormat.value = outputFormat.value;
       outputFormat.value = tmp;
 
-      document.querySelector('#left').value = document.querySelector('#right').value;
+      document.querySelector('#left').innerText = document.querySelector('#right').innerText;
 
       updateOrDisplayError();
    });
+
+   document.querySelector('button#share').addEventListener('click', () => {
+      shareLink.style.display = 'block';
+      const searchQuery = generateShareQuery();
+      const wl = window.location;
+
+      shareLink.innerText = `${wl.protocol}//${wl.host}${wl.pathname}?${searchQuery}`;
+   });
 }
 
-
-main();
+main().then(() => { }).catch((err) => console.error(err));

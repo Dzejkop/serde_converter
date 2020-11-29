@@ -1,18 +1,46 @@
-.input-area-container {
-    width: 40vw;
-    display: inline-block;
+@font-face {
+    font-family: 'Fira Code';
+    src: url(FiraCode-Regular.ttf);
 }
 
-textarea.input-area {
+body {
+    font-family: 'Fira Code';
+}
+
+.input-area {
+    border: solid 1px #000;
+    height: 50vh;
     width: 100%;
-    height: 80vh;
+    white-space: pre;
+    overflow: scroll;
+    box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.65);
+    resize: vertical;
 }
 
 .container {
-    margin-left: 5vw;
+    display: flex;
+    flex-direction: column;
+    margin: 5em;
+}
+
+.input-container {
+    flex: 5;
+    display: flex;
+}
+
+.input-area-container {
+    flex: 4;
+    max-width: 40%;
+    max-height: 50%;
+}
+
+.buttons-container {
+    flex: 2;
+    text-align: center;
 }
 
 .error-container {
+    flex: 1;
     text-align: center;
 }
 
@@ -22,4 +50,20 @@ textarea.input-area {
 
 .options {
     display: inline;
+}
+
+.input-options-container {
+    margin-top: 2em;
+}
+
+p.share-link {
+    border: solid 1px #666;
+    width: 80%;
+    word-wrap: anywhere;
+    margin: auto;
+    margin-top: 1em;
+    text-align: center;
+    padding: 0.25em;
+    background: #eee;
+    box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.65);
 }
