@@ -116,7 +116,7 @@ where
     f(elem)
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize)]
+#[derive(Default, Debug, Clone, Deserialize, Serialize)]
 pub struct WindowSearchQuery {
     pub left: Option<String>,
     pub input_format: Option<Format>,
@@ -126,6 +126,9 @@ pub struct WindowSearchQuery {
 pub fn get_window_search_query() -> Result<WindowSearchQuery, JsValue> {
     let window = window()?;
     let s = window.location().search()?;
+    if s.is_empty() {
+        return Ok(Default::default());
+    }
     let s = &s[1..];
 
     let wsq = serde_urlencoded::from_str(s).map_err(any_err_convert)?;

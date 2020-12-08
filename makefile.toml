@@ -20,5 +20,6 @@ ln index.css export/index.css
 ln bundle.js export/bundle.js
 ln pkg/serde_web_converter_bg.wasm export/serde_web_converter_bg.wasm
 ln FiraCode-Regular.ttf export/FiraCode-Regular.ttf
+ln copy.svg export/copy.svg
 '''
 dependencies = ["bundle"]

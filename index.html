@@ -6,6 +6,7 @@
   <title>serde_translate</title>
   <link rel="stylesheet" href="index.css" />
 </head>
+
 <body>
   <div class="container">
     <div class="input-container">
@@ -30,10 +31,13 @@
       <div class="buttons-container">
         <button id="flip">Flip</button>
         <button id="share">Share</button>
-        <p class="share-link"></p>
+        <div style="visibility: hidden;" id="direct-link">
+          <a href="#" class="share-link">Direct link</a>
+          <a id="share-link-copy" href="#"><img style="width: 1em;" src="copy.svg" /></a>
+        </div>
       </div>
       <div class="input-area-container">
-        <div contenteditable="true" class="input-area" id="right"></div>
+        <div class="input-area" id="right"></div>
         <div class="input-options-container">
           <select id="target-format" name="target-format">
             <option value="json">Json</option>

@@ -155,18 +155,6 @@ pub fn generate_share_query() -> Result<JsValue, JsValue> {
 
 #[wasm_bindgen]
 pub fn update() -> Result<(), JsValue> {
-    query_select_dyn_ref("#csv-options", |e: &HtmlDivElement| {
-        let input_format = get_current_input_format()?;
-
-        if matches!(input_format, Format::Csv) {
-            e.style().set_property("visibility", "inherit")?;
-        } else {
-            e.style().set_property("visibility", "hidden")?;
-        }
-
-        Ok(())
-    })?;
-
     let current_value = get_current_left_value()?;
 
     update_right_serialize(current_value)?;

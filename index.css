@@ -5,15 +5,17 @@
 
 body {
     font-family: 'Fira Code';
+    background-color: rgb(225, 225, 219);
 }
 
 .input-area {
-    border: solid 1px #000;
+    background-color: white;
+    padding-left: 1em;
+    border: solid 4px rgb(187, 187, 187);
     height: 50vh;
     width: 100%;
     white-space: pre;
     overflow: scroll;
-    box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.65);
     resize: vertical;
 }
 
@@ -56,14 +58,6 @@ body {
     margin-top: 2em;
 }
 
-p.share-link {
-    border: solid 1px #666;
-    width: 80%;
-    word-wrap: anywhere;
-    margin: auto;
-    margin-top: 1em;
-    text-align: center;
-    padding: 0.25em;
-    background: #eee;
-    box-shadow: 10px 10px 0px 0px rgba(0,0,0,0.65);
+#direct-link {
+    margin: 1em;
 }

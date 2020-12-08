@@ -1,9 +1,12 @@
 import init, { update, tryUpdateSearchQuery, generateShareQuery } from './pkg/serde_web_converter.js';
 
 const errorMsg = document.querySelector('#error-msg');
-const shareLink = document.querySelector('p.share-link');
+const directLink = document.querySelector('#direct-link');
+const shareLink = document.querySelector('#direct-link a');
+const inputFormat = document.querySelector('select#input-format');
+const csvOptions = document.querySelector('div#csv-options.options')
 
-shareLink.style.display = 'none';
+directLink.style.visibility = 'hidden';
 
 function updateError(error) {
    errorMsg.textContent = '';
@@ -20,6 +23,11 @@ function updateError(error) {
 }
 
 function updateOrDisplayError() {
+   if (inputFormat.value === 'csv') {
+      csvOptions.style.visibility = 'inherit';
+   } else {
+      csvOptions.style.visibility = 'hidden';
+   }
    try {
       update();
       updateError(null);
@@ -38,12 +46,14 @@ async function main() {
       updateError(error);
    }
 
+   updateOrDisplayError();
+
    document.querySelector('#left').addEventListener('input', updateOrDisplayError);
    document.querySelector('select#input-format').addEventListener('input', updateOrDisplayError);
    document.querySelector('select#target-format').addEventListener('input', updateOrDisplayError);
    document.querySelector('#csv-options label input#has-header').addEventListener('input', updateOrDisplayError);
-   document.querySelector('#share').addEventListener('click', () => {
-      console.log(generateShareQuery());
+   document.querySelector('#share-link-copy').addEventListener('click', async () => {
+      navigator.clipboard.writeText(shareLink.href);
    });
 
    document.querySelector('button#flip').addEventListener('click', () => {
@@ -60,11 +70,11 @@ async function main() {
    });
 
    document.querySelector('button#share').addEventListener('click', () => {
-      shareLink.style.display = 'block';
+      directLink.style.visibility = 'inherit';
       const searchQuery = generateShareQuery();
       const wl = window.location;
 
-      shareLink.innerText = `${wl.protocol}//${wl.host}${wl.pathname}?${searchQuery}`;
+      shareLink.href = `${wl.protocol}//${wl.host}${wl.pathname}?${searchQuery}`;
    });
 }
 
