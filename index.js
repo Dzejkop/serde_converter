@@ -37,7 +37,7 @@ function updateOrDisplayError() {
 }
 
 async function main() {
-   await init('/serde_web_converter_bg.wasm');
+   await init('serde_web_converter_bg.wasm');
 
    try {
       tryUpdateSearchQuery();
